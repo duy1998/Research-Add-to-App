@@ -198,4 +198,8 @@ android {
       .put("my_engine_id", flutterEngine)
   
     ```
+    
+    ```dart
+    FlutterFragment.withCachedEngine("my_engine_id").build()
+    ```
 
