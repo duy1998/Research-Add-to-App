@@ -1,6 +1,6 @@
-# flutter_module_one
+# flutter_module
 
-A new Flutter module.
+A new flutter module project.
 
 ## Getting Started
 
