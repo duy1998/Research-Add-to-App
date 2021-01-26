@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <Button
+        android:layout_marginBottom="15dp"
+        android:id="@+id/myButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Go to FlutterActivity" />
+    <Button
+        android:layout_marginBottom="15dp"
+        android:id="@+id/myButton1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Go to FlutterActivity with Route" />
+    <Button
+        android:layout_marginBottom="15dp"
+        android:id="@+id/myButton2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Go to FlutterActivity with Cache" />
+    <Button
+        android:layout_marginBottom="15dp"
+        android:id="@+id/myButton3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Go to FlutterActivity with Cache, Route" />
+
+    <Button
+        android:layout_marginBottom="15dp"
+        android:id="@+id/myButton4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Go to FlutterFragment" />
+
+    <Button
+        android:layout_marginBottom="15dp"
+        android:id="@+id/myButton5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Go to FlutterFragment with Cache" />
+
+</LinearLayout>
