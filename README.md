@@ -41,7 +41,7 @@ android {
   
   <img src="../images/2.png" width="500">
   
-- Khởi tạo Flutter Activity
+- Sử dụng Flutter Activity
   - Khai báo activity trong Manifest
   ```dart
   <activity
