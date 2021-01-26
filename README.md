@@ -178,6 +178,14 @@ android {
         }
       }
     ```
+    
+    ```dart
+    val flutterFragment = FlutterFragment.withNewEngine()
+    .initialRoute("myInitialRoute/")
+    .build()
+    ```
+    
+    
   
     - Using a pre-warmed FlutterEngine
   
@@ -225,10 +233,5 @@ android {
       }
     }
 
-    ```
-    ```dart
-    val flutterFragment = FlutterFragment.withNewEngine()
-    .initialRoute("myInitialRoute/")
-    .build()
     ```
 
