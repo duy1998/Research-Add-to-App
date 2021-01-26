@@ -202,4 +202,33 @@ android {
     ```dart
     FlutterFragment.withCachedEngine("my_engine_id").build()
     ```
+    
+    - Initial route with a cached engine
+    
+    ```dart
+     class MyApplication : Application() {
+        lateinit var flutterEngine : FlutterEngine
+        override fun onCreate() {
+        super.onCreate()
+        // Instantiate a FlutterEngine.
+        flutterEngine = FlutterEngine(this)
+        // Configure an initial route.
+        flutterEngine.navigationChannel.initialRoute = "your/route/here";
+        // Start executing Dart code to pre-warm the FlutterEngine.
+        flutterEngine.dartExecutor.executeDartEntrypoint(
+          DartExecutor.DartEntrypoint.createDefault()
+        )
+        // Cache the FlutterEngine to be used by FlutterActivity or FlutterFragment.
+        FlutterEngineCache
+          .getInstance()
+          .put("my_engine_id", flutterEngine)
+      }
+    }
+
+    ```
+    ```dart
+    val flutterFragment = FlutterFragment.withNewEngine()
+    .initialRoute("myInitialRoute/")
+    .build()
+    ```
 
