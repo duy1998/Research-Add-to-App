@@ -170,32 +170,32 @@ android {
             .beginTransaction()
             .add(
               R.id.fragment_container,
-              newFlutterFragment,
-              TAG_FLUTTER_FRAGMENT
-            )
-            .commit()
+                newFlutterFragment,
+                TAG_FLUTTER_FRAGMENT
+              )
+              .commit()
+          }
         }
       }
-    }
-  ```
+    ```
   
     - Using a pre-warmed FlutterEngine
   
-  ```dart
-  // Somewhere in your app, before your FlutterFragment is needed,
-  // like in the Application class ...
-  // Instantiate a FlutterEngine.
-  val flutterEngine = FlutterEngine(context)
+    ```dart
+    // Somewhere in your app, before your FlutterFragment is needed,
+    // like in the Application class ...
+    // Instantiate a FlutterEngine.
+    val flutterEngine = FlutterEngine(context)
 
-  // Start executing Dart code in the FlutterEngine.
-  flutterEngine.getDartExecutor().executeDartEntrypoint(
-      DartEntrypoint.createDefault()
-  )
+    // Start executing Dart code in the FlutterEngine.
+    flutterEngine.getDartExecutor().executeDartEntrypoint(
+        DartEntrypoint.createDefault()
+    )
 
-  // Cache the pre-warmed FlutterEngine to be used later by FlutterFragment.
-  FlutterEngineCache
-    .getInstance()
-    .put("my_engine_id", flutterEngine)
+    // Cache the pre-warmed FlutterEngine to be used later by FlutterFragment.
+    FlutterEngineCache
+      .getInstance()
+      .put("my_engine_id", flutterEngine)
   
-  ```
+    ```
 
