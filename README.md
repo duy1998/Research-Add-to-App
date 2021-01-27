@@ -35,11 +35,11 @@ android {
   - Sử dụng Android Studio
   - File > New > New Module
   
-  <img src="../images/1.png" width="500">
+  <img src="images/1.png" width="500" height="500">
   
   - Tiếp theo
   
-  <img src="../images/2.png" width="500">
+  <img src="images/2.png" width="500" height="500">
   
 - Sử dụng Flutter Activity
   - Khai báo activity trong Manifest
