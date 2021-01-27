@@ -3,10 +3,10 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 // Without Route
-void main() => runApp(MyApp());
+// void main() => runApp(MyApp());
 
 // With Route
-// void main() => runApp(chooseWidget(window.defaultRouteName));
+void main() => runApp(chooseWidget(window.defaultRouteName));
 
 Widget chooseWidget(String route) {
   switch (route) {
