@@ -1,7 +1,7 @@
 # Add to App
 ## Flutter to Android
 
-- Thêm config vào app/build.gradle (vì Flutter chỉ hỗ trợ build ahead-of-time (AOT) cho x86_64, armeabi-v7a and arm64-v8a)
+- config in app/build.gradle (Flutter currently only supports building ahead-of-time (AOT) compiled libraries for x86_64, armeabi-v7a and arm64-v8a)
 ```dart
 android {
   //...
@@ -19,7 +19,7 @@ dependencies {
   implementation project(':flutter')
 }
 ```
-- Kiểm tra Java 8 requirement
+- Check Java 8 requirement
 
 ```dart
 android {
@@ -31,18 +31,18 @@ android {
 }
 ```
 
-- Tạo Flutter module
-  - Sử dụng Android Studio
+- Create Flutter module
+  - Use Android Studio
   - File > New > New Module
   
   <img src="images/1.png" width="500" height="500">
   
-  - Tiếp theo
+  - Next
   
   <img src="images/2.png" width="500" height="500">
   
-- Sử dụng Flutter Activity
-  - Khai báo activity trong Manifest
+- Use Flutter Activity
+  - Declare in Manifest
   ```dart
   <activity
   android:name="io.flutter.embedding.android.FlutterActivity"
@@ -95,7 +95,7 @@ android {
   ```
   - (Optional) Start Flutter Activity using a cached FlutterEngine
   
-    - Tạo Application
+    - Create application
     
     ```dart
     class MyApplication : Application() {
@@ -152,9 +152,9 @@ android {
     }
 
     ```
- - Sử dụng FlutterFragment
+ - Use FlutterFragment
  
-    - Tạo Activity chứa FlutterFragment
+    - Create Activity to host FlutterFragment
     ```dart
     class MyActivity : FragmentActivity() {
       companion object {
@@ -206,4 +206,41 @@ android {
     .initialRoute("myInitialRoute/")
     .build()
     ```
+    
+ ## Flutter to IOS
+  - Create Flutter module
+  ```dart
+  cd some/path/
+  flutter create --template module my_flutter
+  ```
+  - Create PodFile
+  ```dart
+  flutter_application_path = '../my_flutter'
+  load File.join(flutter_application_path, '.ios', 'Flutter', 'podhelper.rb')
+  target 'MyApp' do
+    install_all_flutter_pods(flutter_application_path)
+  end
+  ```
+  
+  - Run pod install
+  - Create FlutterEngine
+  ```dart
+  import UIKit
+  import Flutter
+  // Used to connect plugins (only if you have plugins with iOS platform code).
+  import FlutterPluginRegistrant
 
+  @UIApplicationMain
+  class AppDelegate: FlutterAppDelegate { // More on the FlutterAppDelegate.
+    lazy var flutterEngine = FlutterEngine(name: "my flutter engine")
+  
+    override func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+      // Runs the default Dart entrypoint with a default Flutter route.
+      flutterEngine.run();
+      // Used to connect plugins (only if you have plugins with iOS platform code).
+      GeneratedPluginRegistrant.register(with: self.flutterEngine);
+      return super.application(application, didFinishLaunchingWithOptions: launchOptions);
+    }
+  }
+  ```
+  - Show a FlutterViewController with your FlutterEngine
