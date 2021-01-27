@@ -1,7 +1,7 @@
 # Add to App
 ## Flutter to Android
 
-- Thêm config vào app/build.gradle (vì Flutter chỉ hỗ trợ build ahead-of-time (AOT) cho x86_64, armeabi-v7a and arm64-v8a)
+- config in app/build.gradle (Flutter currently only supports building ahead-of-time (AOT) compiled libraries for x86_64, armeabi-v7a and arm64-v8a)
 ```dart
 android {
   //...
@@ -19,7 +19,7 @@ dependencies {
   implementation project(':flutter')
 }
 ```
-- Kiểm tra Java 8 requirement
+- Check Java 8 requirement
 
 ```dart
 android {
@@ -31,18 +31,18 @@ android {
 }
 ```
 
-- Tạo Flutter module
-  - Sử dụng Android Studio
+- Create Flutter module
+  - Use Android Studio
   - File > New > New Module
   
-  <img src="../images/1.png" width="500">
+  <img src="images/1.png" width="500" height="500">
   
-  - Tiếp theo
+  - Next
   
-  <img src="../images/2.png" width="500">
+  <img src="images/2.png" width="500" height="500">
   
-- Sử dụng Flutter Activity
-  - Khai báo activity trong Manifest
+- Use Flutter Activity
+  - Declare in Manifest
   ```dart
   <activity
   android:name="io.flutter.embedding.android.FlutterActivity"
@@ -71,9 +71,31 @@ android {
     )
   }
   ```
+  In Flutter module
+  ```dart
+  // With Route
+  void main() => runApp(chooseWidget(window.defaultRouteName));
+
+  Widget chooseWidget(String route) {
+    switch (route) {
+      // name of the route defined in the host app
+      case '/route_1':
+        return MyApp();
+
+      default:
+        return MaterialApp(
+          home: Scaffold(
+            body: Center(
+              child: Text('Unknown'),
+            ),
+          ),
+        );
+    }
+  }
+  ```
   - (Optional) Start Flutter Activity using a cached FlutterEngine
   
-    - Tạo Application
+    - Create application
     
     ```dart
     class MyApplication : Application() {
@@ -130,9 +152,9 @@ android {
     }
 
     ```
- - Sử dụng FlutterFragment
+ - Use FlutterFragment
  
-    - Tạo Activity chứa FlutterFragment
+    - Create Activity to host FlutterFragment
     ```dart
     class MyActivity : FragmentActivity() {
       companion object {
@@ -185,53 +207,90 @@ android {
     .build()
     ```
     
-    
+ ## Flutter to IOS
+  - Create Flutter module
+  ```dart
+  cd some/path/
+  flutter create --template module my_flutter
+  ```
+  - Create PodFile
+  ```dart
+  flutter_application_path = '../my_flutter'
+  load File.join(flutter_application_path, '.ios', 'Flutter', 'podhelper.rb')
+  target 'MyApp' do
+    install_all_flutter_pods(flutter_application_path)
+  end
+  ```
   
-    - Using a pre-warmed FlutterEngine
-  
-    ```dart
-    // Somewhere in your app, before your FlutterFragment is needed,
-    // like in the Application class ...
-    // Instantiate a FlutterEngine.
-    val flutterEngine = FlutterEngine(context)
+  - Run pod install
+  - Create FlutterEngine
+  ```dart
+  import UIKit
+  import Flutter
+  // Used to connect plugins (only if you have plugins with iOS platform code).
+  import FlutterPluginRegistrant
 
-    // Start executing Dart code in the FlutterEngine.
-    flutterEngine.getDartExecutor().executeDartEntrypoint(
-        DartEntrypoint.createDefault()
-    )
-
-    // Cache the pre-warmed FlutterEngine to be used later by FlutterFragment.
-    FlutterEngineCache
-      .getInstance()
-      .put("my_engine_id", flutterEngine)
+  @UIApplicationMain
+  class AppDelegate: FlutterAppDelegate { // More on the FlutterAppDelegate.
+    lazy var flutterEngine = FlutterEngine(name: "my flutter engine")
   
-    ```
-    
-    ```dart
-    FlutterFragment.withCachedEngine("my_engine_id").build()
-    ```
-    
-    - Initial route with a cached engine
-    
-    ```dart
-     class MyApplication : Application() {
-        lateinit var flutterEngine : FlutterEngine
-        override fun onCreate() {
-        super.onCreate()
-        // Instantiate a FlutterEngine.
-        flutterEngine = FlutterEngine(this)
-        // Configure an initial route.
-        flutterEngine.navigationChannel.initialRoute = "your/route/here";
-        // Start executing Dart code to pre-warm the FlutterEngine.
-        flutterEngine.dartExecutor.executeDartEntrypoint(
-          DartExecutor.DartEntrypoint.createDefault()
-        )
-        // Cache the FlutterEngine to be used by FlutterActivity or FlutterFragment.
-        FlutterEngineCache
-          .getInstance()
-          .put("my_engine_id", flutterEngine)
-      }
+    override func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+      // Runs the default Dart entrypoint with a default Flutter route.
+      flutterEngine.run();
+      // Used to connect plugins (only if you have plugins with iOS platform code).
+      GeneratedPluginRegistrant.register(with: self.flutterEngine);
+      return super.application(application, didFinishLaunchingWithOptions: launchOptions);
+    }
+  }
+  ```
+  - Show a FlutterViewController with your FlutterEngine
+  ```dart
+  import UIKit
+  import Flutter
+
+  class ViewController: UIViewController {
+    override func viewDidLoad() {
+      super.viewDidLoad()
+
+      // Make a button to call the showFlutter function when pressed.
+      let button = UIButton(type:UIButton.ButtonType.custom)
+      button.addTarget(self, action: #selector(showFlutter), for: .touchUpInside)
+      button.setTitle("Show Flutter!", for: UIControl.State.normal)
+      button.frame = CGRect(x: 80.0, y: 210.0, width: 160.0, height: 40.0)
+      button.backgroundColor = UIColor.blue
+      self.view.addSubview(button)
     }
 
-    ```
+    @objc func showFlutter() {
+      let flutterEngine = (UIApplication.shared.delegate as! AppDelegate).flutterEngine
+      let flutterViewController =
+          FlutterViewController(engine: flutterEngine, nibName: nil, bundle: nil)
+      present(flutterViewController, animated: true, completion: nil)
+    }
+  }
+
+  ```
+  - Alternatively - Create a FlutterViewController with an implicit FlutterEngine
+  ```dart
+  // Existing code omitted.
+  func showFlutter() {
+    let flutterViewController = FlutterViewController(project: nil, nibName: nil, bundle: nil)
+    present(flutterViewController, animated: true, completion: nil)
+  }
+  ```
+  - Route
+  ```dart
+  let flutterEngine = FlutterEngine()
+  // FlutterDefaultDartEntrypoint is the same as nil, which will run main().
+  flutterEngine.run(withEntrypoint: FlutterDefaultDartEntrypoint, initialRoute: "/onboarding")
+  ```
+## Debugging
+  - Start native project
+  - Run flutter attach in flutter module
+  - Config for IOS
+    - On iOS 14 and higher, enable the Dart multicast DNS service in the Debug version of your app to add debugging functionalities such as hot-reload and DevTools via flutter attach.
+    - Create Info-Debug.plist, Info-Release.plist
+    - In Info-Debug.plist only add the key NSBonjourServices and set the value to an array with the string _dartobservatory._tcp. Note Xcode will display this as “Bonjour services”.
+    -Optionally, add the key NSLocalNetworkUsageDescription set to your desired customized permission dialog text.
+    <img src="images/3.png" width="500" height="500">
 
