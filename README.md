@@ -71,6 +71,28 @@ android {
     )
   }
   ```
+  In Flutter module
+  ```dart
+  // With Route
+  void main() => runApp(chooseWidget(window.defaultRouteName));
+
+  Widget chooseWidget(String route) {
+    switch (route) {
+      // name of the route defined in the host app
+      case '/route_1':
+        return MyApp();
+
+      default:
+        return MaterialApp(
+          home: Scaffold(
+            body: Center(
+              child: Text('Unknown'),
+            ),
+          ),
+        );
+    }
+  }
+  ```
   - (Optional) Start Flutter Activity using a cached FlutterEngine
   
     - Tạo Application
