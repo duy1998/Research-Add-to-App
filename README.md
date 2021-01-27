@@ -284,4 +284,13 @@ android {
   // FlutterDefaultDartEntrypoint is the same as nil, which will run main().
   flutterEngine.run(withEntrypoint: FlutterDefaultDartEntrypoint, initialRoute: "/onboarding")
   ```
+## Debugging
+  - Start native project
+  - Run flutter attach in flutter module
+  - Config for IOS
+    - On iOS 14 and higher, enable the Dart multicast DNS service in the Debug version of your app to add debugging functionalities such as hot-reload and DevTools via flutter attach.
+    - Create Info-Debug.plist, Info-Release.plist
+    - In Info-Debug.plist only add the key NSBonjourServices and set the value to an array with the string _dartobservatory._tcp. Note Xcode will display this as “Bonjour services”.
+    -Optionally, add the key NSLocalNetworkUsageDescription set to your desired customized permission dialog text.
+    <img src="images/3.png" width="500" height="500">
 
