@@ -292,10 +292,15 @@ android {
     - Create Info-Debug.plist, Info-Release.plist
     - In Info-Debug.plist only add the key NSBonjourServices and set the value to an array with the string _dartobservatory._tcp. Note Xcode will display this as “Bonjour services”.
     - Optionally, add the key NSLocalNetworkUsageDescription set to your desired customized permission dialog text.
+    
     <img src="images/3.png" width="700" height="300">
 
     - In your target’s build settings, change the Info.plist File (INFOPLIST_FILE) setting path from path/to/Info.plist to path/to/Info-$(CONFIGURATION).plist.
+    
     <img src="images/4.png" width="700" height="300">
+    
     - This will resolve to the path Info-Debug.plist in Debug and Info-Release.plist in Release.
+    
     <img src="images/5.png" width="700" height="300">
+    
     - Alternatively, you can explicitly set the Debug path to Info-Debug.plist and the Release path to Info-Release.plist.
