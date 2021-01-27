@@ -14,11 +14,12 @@ import FlutterPluginRegistrant
 @UIApplicationMain
 class AppDelegate: FlutterAppDelegate { // More on the FlutterAppDelegate.
     lazy var flutterEngine = FlutterEngine(name: "my flutter engine")
+    lazy var flutterEngineRoute = FlutterEngine(name: "my flutter engine")
 
   override func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     // Runs the default Dart entrypoint with a default Flutter route.
     flutterEngine.run()
-//    flutterEngine.run(withEntrypoint: nil,initialRoute: "/asdasd")
+    flutterEngineRoute.run(withEntrypoint: nil,initialRoute: "/route_1")
     // Used to connect plugins (only if you have plugins with iOS platform code).
     GeneratedPluginRegistrant.register(with: self.flutterEngine);
     return super.application(application, didFinishLaunchingWithOptions: launchOptions);
